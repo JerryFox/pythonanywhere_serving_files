@@ -11,4 +11,5 @@ The files are in /var/www directory.
 * https://stackoverflow.com/questions/6757898/serving-static-files-with-wsgi-and-python-3
 * https://bottlepy.org/docs/dev/tutorial.html
 * https://www.pythonanywhere.com/forums/topic/58/ - How to configure an Bottle app on pythonanywhere
+* https://raw.githubusercontent.com/bottlepy/bottle/master/bottle.py
 

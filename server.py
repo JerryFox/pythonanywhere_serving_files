@@ -11,6 +11,7 @@ DOCUMENT_ROOT=/media/Datos/music  uwsgi --wsgi share:application --http :8000 --
 import re
 import os
 #from cStringIO import StringIO
+import mimetypes
 
 
 def notfound(env, response):
@@ -62,22 +63,11 @@ def index(env, response, path):
     if os.path.isdir(new_path):
         return list_directory(env, response, new_path)
     else:
-        filename, file_extension = os.path.splitext(new_path)
-        file_extension = file_extension.lower()
-        type = ""
-        if "svg" in file_extension:
-            type = 'image/svg+xml'
-        elif "jp" in file_extension:
-            type = "image/jpeg"
-        elif "htm" in file_extension:
-            type = "text/html"
-        else:
-            type = "text/plain"
-        print(new_path, file_extension, type)
+        file_type = mimetypes.guess_type(new_path)[0]
         f = open(new_path)
         output = f.read()
         f.close()
-        response('200 OK', [('Content-Type', type),('Content-Length', str(len(output))),
+        response('200 OK', [('Content-Type', file_type),('Content-Length', str(len(output))),
         ('Connection', 'close')])
         return(output)
 

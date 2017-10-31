@@ -47,7 +47,7 @@ def list_directory(env, response, path):
 
     output.append('</html>')
 
-    response('200 OK', [('ContentType', 'text/html')])
+    response('200 OK', [('Content-Type', 'text/html')])
 
     return output
 
@@ -64,7 +64,9 @@ def index(env, response, path):
         return list_directory(env, response, new_path)
     else:
         file_type = mimetypes.guess_type(new_path)[0]
-        f = open(new_path)
+        if file_type is None:
+            file_type = ""
+        f = open(new_path, "rb")
         output = f.read()
         f.close()
         response('200 OK', [('Content-Type', file_type),('Content-Length', str(len(output))),
@@ -84,7 +86,7 @@ def application(env, response):
     for regex, callback in urlpatterns:
         match = re.search(regex, path)
         if match is not None:
-            response('200 OK', [('ContentType', 'text/html')])
+            response('200 OK', [('Content-Type', 'text/html')])
             return callback(env, response, **match.groupdict())
 
     return '<h1>404</h1>'
